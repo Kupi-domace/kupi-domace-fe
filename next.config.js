@@ -9,6 +9,11 @@ const nextConfig = {
     // Available on both server and client
     theme: "DEFAULT",
   },
+  i18n: {
+    locales: ["en", "sr", "cp"],
+    defaultLocale: "sr",
+    localeDetection: false,
+  },
 };
 
 module.exports = nextConfig;

@@ -10,6 +10,7 @@ import { Button } from "@component/buttons";
 import Container from "@component/Container";
 import { H2, H4, Paragraph, Span } from "@component/Typography";
 import Header from "./Header";
+import { useTranslations } from "next-intl";
 
 const SectionWrapper = styled.div`
   background: url(/assets/images/landing/landing-bg-1.svg);
@@ -17,8 +18,11 @@ const SectionWrapper = styled.div`
 `;
 
 const Section1: FC = () => {
+  const t = useTranslations();
+
   return (
     <SectionWrapper>
+      {t("hello_world")}
       <Header />
 
       <Container id="section-1" mt="4rem" mb="7rem" position="relative">
@@ -41,7 +45,8 @@ const Section1: FC = () => {
           </H2>
 
           <Paragraph color="gray.700" maxWidth="400px" mx="auto" mb="2rem">
-            SEO friendly server side rendered React Next.js multipurpose eCommerce template.
+            SEO friendly server side rendered React Next.js multipurpose
+            eCommerce template.
           </Paragraph>
 
           <FlexBox justifyContent="center" m="-0.5rem">
