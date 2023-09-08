@@ -12,6 +12,8 @@ import { AppProvider } from "@context/AppContext";
 import "../__server__";
 import theme from "../theme";
 import GlobalStyles from "theme/globalStyles";
+import axiosInstance from "config/axiosInstance";
+import { NextIntlClientProvider } from "next-intl";
 
 //Binding events.
 Router.events.on("routeChangeStart", () => NProgress.start());
@@ -23,12 +25,12 @@ NProgress.configure({ showSpinner: false });
 // ============================================================
 interface MyAppProps extends AppProps {
   Component: NextPage & { layout?: () => JSX.Element };
+  messages: any;
 }
 // ============================================================
 
-const App = ({ Component, pageProps }: MyAppProps) => {
+const App = ({ Component, pageProps, messages }: MyAppProps) => {
   let Layout = Component.layout || Fragment;
-
   return (
     <Fragment>
       <Head>
@@ -50,15 +52,17 @@ const App = ({ Component, pageProps }: MyAppProps) => {
         {/* Google analytics */}
         <GoogleAnalytics />
       </Head>
-      <AppProvider>
-        <ThemeProvider theme={theme()}>
-          <GlobalStyles />
+      <NextIntlClientProvider messages={messages}>
+        <AppProvider>
+          <ThemeProvider theme={theme()}>
+            <GlobalStyles />
 
-          <Layout>
-            <Component {...pageProps} />
-          </Layout>
-        </ThemeProvider>
-      </AppProvider>
+            <Layout>
+              <Component {...pageProps} />
+            </Layout>
+          </ThemeProvider>
+        </AppProvider>
+      </NextIntlClientProvider>
     </Fragment>
   );
 };
@@ -68,11 +72,20 @@ const App = ({ Component, pageProps }: MyAppProps) => {
 // perform automatic static optimization, causing every page in your app to
 // be server-side rendered.
 //
-// App.getInitialProps = async (appContext) => {
-//   // calls page's `getInitialProps` and fills `appProps.pageProps`
-//   const appProps = await App.getInitialProps(appContext);
-//
-//   return { ...appProps }
-// }
+App.getInitialProps = async ({ ctx }) => {
+  try {
+    // ToDO: get translations from cache or cookies
+    const response = await axiosInstance.get(
+      `/api/translations?locale=${ctx.locale}`
+    );
+    return {
+      messages: response.data.messages,
+    };
+  } catch (err) {
+    return {
+      messages: {},
+    };
+  }
+};
 
 export default App;

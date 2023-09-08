@@ -65,7 +65,10 @@ const GroceryTwo = (props: Grocery2Props) => {
 
         {/* BEST SELLER PRODUCTS AREA */}
         <Box mb="3rem">
-          <Section4 title="Best Seller in Your Area" products={props.bestSellProducts} />
+          <Section4
+            title="Best Seller in Your Area"
+            products={props.bestSellProducts}
+          />
         </Box>
 
         {/* DISCOUNT BANNER CAROUSEL AREA */}
@@ -75,12 +78,18 @@ const GroceryTwo = (props: Grocery2Props) => {
 
         {/* BEST HOME PRODUCTS AREA */}
         <Box mb="3rem">
-          <Section4 title="Best of Home Essentials" products={props.bestHomeProducts} />
+          <Section4
+            title="Best of Home Essentials"
+            products={props.bestHomeProducts}
+          />
         </Box>
 
         {/* SNACK AND DRINKS PRODUCTS AREA */}
         <Box mb="3rem">
-          <Section4 title="Snacks, Drinks, Dairy & More" products={props.dairyProducts} />
+          <Section4
+            title="Snacks, Drinks, Dairy & More"
+            products={props.dairyProducts}
+          />
         </Box>
 
         {/* TESTIMONIAL CAROUSEL AREA */}

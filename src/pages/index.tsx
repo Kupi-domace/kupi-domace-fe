@@ -6,25 +6,19 @@ import Section3 from "@sections/landing/Section3";
 import Section4 from "@sections/landing/Section4";
 import axiosInstance from "config/axiosInstance";
 // import Section5 from "@sections/landing/Section5";
-import { NextIntlClientProvider } from "next-intl";
 
-type Props = {
-  messages: any;
-};
+type Props = {};
 
-const IndexPage = ({ messages = {} }: Props) => {
-  console.log("messages", messages);
+const IndexPage = ({}: Props) => {
   return (
-    <NextIntlClientProvider messages={messages}>
-      <Box id="top" overflow="hidden" bg="gray.white">
-        <Section1 />
-        <Section2 />
-        <Section3 />
-        <Section4 />
-        {/* <Section5 /> */}
-        <Footer />
-      </Box>
-    </NextIntlClientProvider>
+    <Box id="top" overflow="hidden" bg="gray.white">
+      <Section1 />
+      <Section2 />
+      <Section3 />
+      <Section4 />
+      {/* <Section5 /> */}
+      <Footer />
+    </Box>
   );
 };
 
