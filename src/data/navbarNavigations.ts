@@ -1,13 +1,5 @@
 const navbarNavigations = [
   {
-    title: "Home",
-    child: [
-      { title: "Gift Shop", url: "/gift-shop" },
-      { title: "Gadget Shop", url: "/gadget-shop" },
-      { title: "Health and Beauty", url: "/health-beauty" },
-    ],
-  },
-  {
     title: "Pages",
     child: [
       {

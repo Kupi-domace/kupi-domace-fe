@@ -34,7 +34,7 @@ type Grocery2Props = {
 };
 // ========================================================
 
-const GroceryTwo = (props: Grocery2Props) => {
+const Index = (props: Grocery2Props) => {
   const { isFixed } = useScroll();
 
   return (
@@ -104,7 +104,7 @@ const GroceryTwo = (props: Grocery2Props) => {
   );
 };
 
-GroceryTwo.layout = GroceryLayout;
+Index.layout = GroceryLayout;
 
 export const getStaticProps: GetStaticProps = async () => {
   const serviceList = await api.getServices();
@@ -134,4 +134,4 @@ export const getStaticProps: GetStaticProps = async () => {
   };
 };
 
-export default GroceryTwo;
+export default Index;
