@@ -1,49 +1,137 @@
+import { GetStaticProps } from "next";
 import Box from "@component/Box";
-import Footer from "@sections/landing/Footer";
+import { Footer2 } from "@component/footer";
+import Wrapper from "@sections/landing/Wrapper";
 import Section1 from "@sections/landing/Section1";
 import Section2 from "@sections/landing/Section2";
 import Section3 from "@sections/landing/Section3";
 import Section4 from "@sections/landing/Section4";
-import axiosInstance from "config/axiosInstance";
-// import Section5 from "@sections/landing/Section5";
+import Section6 from "@sections/landing/Section6";
+import Section9 from "@sections/landing/Section9";
+import SidenavBar from "@sections/landing/SidenavBar";
+import GroceryLayout from "@component/layout/GroceryLayout";
+import useScroll from "@hook/useScroll";
+import api from "@utils/__api__/landing";
+// data models
+import Service from "@models/service.model";
+import Product from "@models/product.model";
+import Category from "@models/category.model";
+import { CategoryItem } from "@models/categoryNavList.model";
+import { GroceryTwoCarouselItem } from "@models/carousel.model";
 
-type Props = {};
+// ========================================================
+type Grocery2Props = {
+  categories: Category[];
+  serviceList: Service[];
+  dairyProducts: Product[];
+  featuredProducts: Product[];
+  bestSellProducts: Product[];
+  bestHomeProducts: Product[];
+  navigationList: CategoryItem[];
+  mainCarouselData: GroceryTwoCarouselItem[];
+  testimonials: any[];
+  discountBanners: any[];
+};
+// ========================================================
 
-const IndexPage = ({}: Props) => {
+const Index = (props: Grocery2Props) => {
+  const { isFixed } = useScroll();
+
   return (
-    <Box id="top" overflow="hidden" bg="gray.white">
-      <Section1 />
-      <Section2 />
-      <Section3 />
-      <Section4 />
-      {/* <Section5 /> */}
-      <Footer />
-    </Box>
+    <Wrapper isSidenavFixed={isFixed}>
+      {/* SIDEBAR NAVIGATION AREA */}
+      <Box className="sidenav" pt="1.5rem">
+        <SidenavBar isFixed={isFixed} navList={props.navigationList} />
+      </Box>
+
+      <Box className="content" pt="1.5rem">
+        {/* HERO CAROUSEL AREA */}
+        <Section1 carouselData={props.mainCarouselData} />
+
+        {/* SERVICES AREA */}
+        <Box mb="3rem" overflow="hidden">
+          <Section2 services={props.serviceList} />
+        </Box>
+
+        {/* SHOP BY CATEGORY AREA */}
+        <Box mb="3rem">
+          <Section3 categories={props.categories} />
+        </Box>
+
+        {/* FEATURED PRODUCTS AREA */}
+        <Box mb="3rem">
+          <Section4 title="Featured Items" products={props.featuredProducts} />
+        </Box>
+
+        {/* BEST SELLER PRODUCTS AREA */}
+        <Box mb="3rem">
+          <Section4
+            title="Best Seller in Your Area"
+            products={props.bestSellProducts}
+          />
+        </Box>
+
+        {/* DISCOUNT BANNER CAROUSEL AREA */}
+        <Box mb="3rem">
+          <Section6 cardList={props.discountBanners} />
+        </Box>
+
+        {/* BEST HOME PRODUCTS AREA */}
+        <Box mb="3rem">
+          <Section4
+            title="Best of Home Essentials"
+            products={props.bestHomeProducts}
+          />
+        </Box>
+
+        {/* SNACK AND DRINKS PRODUCTS AREA */}
+        <Box mb="3rem">
+          <Section4
+            title="Snacks, Drinks, Dairy & More"
+            products={props.dairyProducts}
+          />
+        </Box>
+
+        {/* TESTIMONIAL CAROUSEL AREA */}
+        <Box mb="3rem">
+          <Section9 testimonials={props.testimonials} />
+        </Box>
+
+        {/* FOOTER AREA */}
+        <Footer2 />
+      </Box>
+    </Wrapper>
   );
 };
 
-export async function getServerSideProps({ res, locale }) {
-  res.setHeader(
-    "Cache-Control",
-    "public, s-maxage=10, stale-while-revalidate=59"
-  );
-  try {
-    // ToDO: get translations from cache or cookies
-    const response = await axiosInstance.get(
-      `/api/translations?locale=${locale}`
-    );
-    return {
-      props: {
-        messages: response.data.messages,
-      },
-    };
-  } catch (err) {
-    return {
-      props: {
-        messages: {},
-      },
-    };
-  }
-}
+Index.layout = GroceryLayout;
 
-export default IndexPage;
+export const getStaticProps: GetStaticProps = async () => {
+  const serviceList = await api.getServices();
+  const categories = await api.getCategories();
+  const testimonials = await api.getTestimonials();
+  const dairyProducts = await api.getDairyProducts();
+  const navigationList = await api.getNavigationList();
+  const mainCarouselData = await api.getMainCarousel();
+  const featuredProducts = await api.getFeaturedProducts();
+  const bestHomeProducts = await api.getBestHomeProducts();
+  const bestSellProducts = await api.getBestSellProducts();
+  const discountBanners = await api.getDiscountBannerList();
+
+  return {
+    props: {
+      categories,
+      serviceList,
+      testimonials,
+      dairyProducts,
+      navigationList,
+      discountBanners,
+      featuredProducts,
+      bestSellProducts,
+      bestHomeProducts,
+      mainCarouselData,
+    },
+  };
+};
+
+export default Index;
