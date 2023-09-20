@@ -31,6 +31,7 @@ interface MyAppProps extends AppProps {
 
 const App = ({ Component, pageProps, messages }: MyAppProps) => {
   let Layout = Component.layout || Fragment;
+  console.log(pageProps, 'layout')
   return (
     <Fragment>
       <Head>

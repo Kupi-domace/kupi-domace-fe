@@ -43,7 +43,7 @@ const Wrapper = styled.div`
   }
 `;
 
-const Section1: FC = () => {
+const Section0: FC = () => {
   return (
     <Wrapper>
       <H1>
@@ -61,4 +61,4 @@ const Section1: FC = () => {
   );
 };
 
-export default Section1;
+export default Section0;

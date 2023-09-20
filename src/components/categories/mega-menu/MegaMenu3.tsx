@@ -47,7 +47,7 @@ const MegaMenu3: FC<MegaMenu3Props> = ({ data: { categories, rightImage }, minWi
           )}
         </FlexBox>
 
-        <Link href="/sale-page-2">
+        <Link href="/sale-page">
           <a>
             <Grid
               container
