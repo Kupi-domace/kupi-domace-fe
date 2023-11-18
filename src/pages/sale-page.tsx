@@ -1,6 +1,5 @@
 import { GetServerSideProps } from "next";
 import { useRouter } from "next/router";
-import axios from "axios";
 import Grid from "@component/grid/Grid";
 import FlexBox from "@component/FlexBox";
 import Container from "@component/Container";
@@ -11,6 +10,7 @@ import { ProductCard1 } from "@component/product-cards";
 import { renderProductCount } from "@utils/utils";
 import Product from "@models/product.model";
 import { Meta } from "interfaces";
+import serverAxiosInstance from "config/serverAxiosInstance";
 
 // ===================================================
 type Props = { products: Product[]; meta: Meta };
@@ -52,15 +52,14 @@ SalePage2.layout = SaleLayout2;
 // ==============================================================
 
 export const getServerSideProps: GetServerSideProps = async ({ query }) => {
-  const PAGE_SIZE = 28;
+  const PAGE_SIZE = 10;
   const PAGE = query?.page ? Number(query.page) : 1;
   const params = { page: PAGE, pageSize: PAGE_SIZE };
 
-  const { data } = await axios.get("/api/products", { params });
-
+  const { data } = await serverAxiosInstance.get(`/products/?limit=${params.pageSize}&offset=${params.pageSize * (params.page - 1)}`);
   if (!data) return { notFound: true };
 
-  return { props: { products: data.result, meta: data.meta } };
+  return { props: { products: data.items, meta: data.meta } };
 };
 
 export default SalePage2;

@@ -6,7 +6,7 @@ import Pagination from "@component/pagination";
 import ShopCard1 from "@sections/shop/ShopCard1";
 import { H2, SemiSpan } from "@component/Typography";
 import NavbarLayout from "@component/layout/NavbarLayout";
-import api from "@utils/__api__/shops";
+import api from "../../pages/api/shops";
 import Shop from "@models/shop.model";
 
 // =============================================
@@ -26,9 +26,9 @@ const ShopList = ({ shopList }: Props) => {
               phone={item.phone}
               address={item.address}
               rating={item.rating || 5}
-              imgUrl={item.profilePicture}
-              coverImgUrl={item.coverPicture}
-              shopUrl={`/shops/${item.slug}`}
+              imgUrl={item.profile_picture}
+              coverImgUrl={item.cover_picture}
+              shopUrl={`/shops/${item.id}`}
             />
           </Grid>
         ))}

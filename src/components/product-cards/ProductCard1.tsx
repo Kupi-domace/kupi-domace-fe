@@ -11,7 +11,7 @@ import FlexBox from "@component/FlexBox";
 import { Button } from "@component/buttons";
 import Card, { CardProps } from "@component/Card";
 import { H3, SemiSpan } from "@component/Typography";
-import { calculateDiscount, currency, getTheme } from "@utils/utils";
+import { calculateDiscount, currency, getTheme, isImage } from "@utils/utils";
 import { deviceSize } from "@utils/constants";
 import ProductQuickView from "@component/products/ProductQuickView";
 
@@ -172,7 +172,7 @@ const ProductCard1: FC<ProductCard1Props> = ({
               <Image
                 alt={title}
                 width={100}
-                src={imgUrl}
+                src={isImage(imgUrl) ? imgUrl : 'https://img.freepik.com/premium-vector/100percent-organic-food-certified-label_545399-1128.jpg'}
                 height={100}
                 objectFit="cover"
                 layout="responsive"

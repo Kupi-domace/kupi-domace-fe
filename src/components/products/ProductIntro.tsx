@@ -19,10 +19,13 @@ type ProductIntroProps = {
   title: string;
   images: string[];
   id: string | number;
+  brand: string;
+  rating: number;
+  status: string;
 };
 // ========================================
 
-const ProductIntro: FC<ProductIntroProps> = ({ images, title, price, id }) => {
+const ProductIntro: FC<ProductIntroProps> = ({ images, title, price, id, brand, rating, status }) => {
   const router = useRouter();
   const { state, dispatch } = useAppContext();
   const [selectedImage, setSelectedImage] = useState(0);
@@ -83,13 +86,13 @@ const ProductIntro: FC<ProductIntroProps> = ({ images, title, price, id }) => {
 
           <FlexBox alignItems="center" mb="1rem">
             <SemiSpan>Brand:</SemiSpan>
-            <H6 ml="8px">Ziaomi</H6>
+            <H6 ml="8px">{brand}</H6>
           </FlexBox>
 
           <FlexBox alignItems="center" mb="1rem">
             <SemiSpan>Rated:</SemiSpan>
             <Box ml="8px" mr="8px">
-              <Rating color="warn" value={4} outof={5} />
+              <Rating color="warn" value={rating} outof={5} />
             </Box>
             <H6>(50)</H6>
           </FlexBox>
@@ -99,7 +102,7 @@ const ProductIntro: FC<ProductIntroProps> = ({ images, title, price, id }) => {
               {currency(price)}
             </H2>
 
-            <SemiSpan color="inherit">Stock Available</SemiSpan>
+            <SemiSpan color="inherit">Stock {status}</SemiSpan>
           </Box>
 
           {!cartItem?.qty ? (
@@ -107,6 +110,7 @@ const ProductIntro: FC<ProductIntroProps> = ({ images, title, price, id }) => {
               mb="36px"
               size="small"
               color="primary"
+              disabled={status !== 'available'}
               variant="contained"
               onClick={handleCartAmountChange(1)}
             >
@@ -142,13 +146,15 @@ const ProductIntro: FC<ProductIntroProps> = ({ images, title, price, id }) => {
 
           <FlexBox alignItems="center" mb="1rem">
             <SemiSpan>Sold By:</SemiSpan>
-            <Link href="/shops/scarlett-beauty">
+            Vendor
+            {/* add link to vendor when its fetched from backend */}
+            {/* <Link href="/shops/scarlett-beauty">
               <a>
                 <H6 lineHeight="1" ml="8px">
                   Mobile Store
                 </H6>
               </a>
-            </Link>
+            </Link> */}
           </FlexBox>
         </Grid>
       </Grid>

@@ -1,6 +1,7 @@
 import { ceil } from "lodash";
 import { differenceInMinutes } from "date-fns";
 import { themeGet } from "@styled-system/theme-get";
+import getConfig from "next/config";
 
 export const getTheme = (query: string, fallback?: string) => themeGet(query, fallback);
 
@@ -74,15 +75,20 @@ export function calculateDiscount(price: number, discount: number) {
  */
 
 export function currency(price: number, fraction: number = 2) {
-  // const { publicRuntimeConfig } = getConfig();
-  // currency: publicRuntimeConfig.currency,
+   const { publicRuntimeConfig } = getConfig();
 
   const formatCurrency = new Intl.NumberFormat(undefined, {
-    currency: "USD",
-    style: "currency",
     maximumFractionDigits: fraction,
     minimumFractionDigits: fraction,
   });
 
-  return formatCurrency.format(price);
+  return `${formatCurrency.format(price)} ${publicRuntimeConfig.currency}`;
+}
+
+export function isImage(image: string) {
+  const imageExtensions = ['jpg', 'jpeg', 'png', 'gif', 'bmp', 'svg', 'webp'];
+
+  const fileExtension = image.split('.').pop().toLowerCase();
+
+  return imageExtensions.includes(fileExtension);
 }

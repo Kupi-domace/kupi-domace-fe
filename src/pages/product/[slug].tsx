@@ -11,7 +11,7 @@ import AvailableShops from "@component/products/AvailableShops";
 import RelatedProducts from "@component/products/RelatedProducts";
 import FrequentlyBought from "@component/products/FrequentlyBought";
 import ProductDescription from "@component/products/ProductDescription";
-import api from "@utils/__api__/products";
+import api from "../../pages/api/products";
 import Shop from "@models/shop.model";
 import Product from "@models/product.model";
 
@@ -44,6 +44,9 @@ const ProductDetails = (props: Props) => {
         price={product.price}
         title={product.title}
         images={product.images}
+        brand={product.brand}
+        rating={product.rating}
+        status={product.status}
       />
 
       <FlexBox borderBottom="1px solid" borderColor="gray.400" mt="80px" mb="26px">
@@ -92,21 +95,17 @@ const ProductDetails = (props: Props) => {
 ProductDetails.layout = NavbarLayout;
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  const paths = await api.getSlugs();
+  // const paths = await api.getSlugs();
 
   return {
-    paths: paths, //indicates that no page needs be created at build time
+    paths: [], //indicates that no page needs be created at build time
     fallback: "blocking", //indicates the type of fallback
   };
 };
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
-  const shops = await api.getAvailableShop();
-  const relatedProducts = await api.getRelatedProducts();
-  const frequentlyBought = await api.getFrequentlyBought();
   const product = await api.getProduct(params.slug as string);
-
-  return { props: { frequentlyBought, relatedProducts, product, shops } };
+  return { props: { product } };
 };
 
 export default ProductDetails;
