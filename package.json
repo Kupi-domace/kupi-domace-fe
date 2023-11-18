@@ -10,6 +10,7 @@
     "heroku-postbuild": "npm run build"
   },
   "dependencies": {
+    "@auth0/auth0-react": "^2.2.3",
     "@styled-system/theme-get": "^5.1.2",
     "axios": "^1.5.0",
     "axios-mock-adapter": "^1.21.4",
