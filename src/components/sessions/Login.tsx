@@ -1,89 +1,39 @@
-import { FC, useCallback, useState } from "react";
+import { FC } from "react";
 import Link from "next/link";
-import { useRouter } from "next/router";
-import { useFormik } from "formik";
-import * as yup from "yup";
 import Box from "@component/Box";
 import Icon from "@component/icon/Icon";
 import Divider from "@component/Divider";
 import FlexBox from "@component/FlexBox";
-import TextField from "@component/text-field";
-import { Button, IconButton } from "@component/buttons";
-import { H3, H5, H6, SemiSpan, Small, Span } from "@component/Typography";
+import { Button } from "@component/buttons";
+import { H3, H6, SemiSpan, Small, Span } from "@component/Typography";
 import { StyledSessionCard } from "./styles";
+import { useAuth0 } from "@auth0/auth0-react";
+import { useRouter } from "next/router";
 
 const Login: FC = () => {
-  const [passwordVisibility, setPasswordVisibility] = useState(false);
   const router = useRouter();
-
-  const togglePasswordVisibility = useCallback(() => {
-    setPasswordVisibility((visible) => !visible);
-  }, []);
-
-  const handleFormSubmit = async (values) => {
+  const { loginWithRedirect, isAuthenticated, user, logout } = useAuth0();
+  console.log(isAuthenticated, user);
+  // logout();
+  if (isAuthenticated) {
     router.push("/profile");
-    console.log(values);
-  };
-
-  const { values, errors, touched, handleBlur, handleChange, handleSubmit } = useFormik({
-    onSubmit: handleFormSubmit,
-    initialValues,
-    validationSchema: formSchema,
-  });
+  }
 
   return (
     <StyledSessionCard mx="auto" my="2rem" boxShadow="large">
-      <form className="content" onSubmit={handleSubmit}>
-        <H3 textAlign="center" mb="0.5rem">
+      <FlexBox flexDirection={"column"} marginY={2} marginX={5}>
+        <H3 textAlign="center" marginY={5}>
           Welcome To Ecommerce
         </H3>
 
-        <H5 fontWeight="600" fontSize="12px" color="gray.800" textAlign="center" mb="2.25rem">
-          Log in with email & password
-        </H5>
-
-        <TextField
+        <Button
+          mb="1.65rem"
+          variant="contained"
+          color="primary"
+          type="submit"
           fullwidth
-          mb="0.75rem"
-          name="email"
-          type="email"
-          onBlur={handleBlur}
-          onChange={handleChange}
-          value={values.email || ""}
-          placeholder="exmple@mail.com"
-          label="Email or Phone Number"
-          errorText={touched.email && errors.email}
-        />
-
-        <TextField
-          mb="1rem"
-          fullwidth
-          name="password"
-          label="Password"
-          autoComplete="on"
-          onBlur={handleBlur}
-          onChange={handleChange}
-          placeholder="*********"
-          value={values.password || ""}
-          errorText={touched.password && errors.password}
-          type={passwordVisibility ? "text" : "password"}
-          endAdornment={
-            <IconButton
-              p="0.25rem"
-              size="small"
-              mr="0.25rem"
-              type="button"
-              onClick={togglePasswordVisibility}
-              color={passwordVisibility ? "gray.700" : "gray.600"}
-            >
-              <Icon variant="small" defaultcolor="currentColor">
-                {passwordVisibility ? "eye-alt" : "eye"}
-              </Icon>
-            </IconButton>
-          }
-        />
-
-        <Button mb="1.65rem" variant="contained" color="primary" type="submit" fullwidth>
+          onClick={() => loginWithRedirect()}
+        >
           Login
         </Button>
 
@@ -130,20 +80,20 @@ const Login: FC = () => {
 
         <FlexBox justifyContent="center" mb="1.25rem">
           <SemiSpan>Don’t have account?</SemiSpan>
-          <Link href="/signup">
-            <a>
+          <Link href="">
+            <a onClick={() => loginWithRedirect()}>
               <H6 ml="0.5rem" borderBottom="1px solid" borderColor="gray.900">
                 Sign Up
               </H6>
             </a>
           </Link>
         </FlexBox>
-      </form>
+      </FlexBox>
 
       <FlexBox justifyContent="center" bg="gray.200" py="19px">
         <SemiSpan>Forgot your password?</SemiSpan>
         <Link href="/">
-          <a>
+          <a onClick={() => {}}>
             <H6 ml="0.5rem" borderBottom="1px solid" borderColor="gray.900">
               Reset It
             </H6>
@@ -153,12 +103,5 @@ const Login: FC = () => {
     </StyledSessionCard>
   );
 };
-
-const initialValues = { email: "", password: "" };
-
-const formSchema = yup.object().shape({
-  email: yup.string().email("invalid email").required("${path} is required"),
-  password: yup.string().required("${path} is required"),
-});
 
 export default Login;

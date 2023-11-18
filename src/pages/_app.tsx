@@ -14,6 +14,7 @@ import theme from "../theme";
 import GlobalStyles from "theme/globalStyles";
 import axiosInstance from "config/axiosInstance";
 import { NextIntlClientProvider } from "next-intl";
+import { Auth0ProviderWithNavigate } from "@component/AuthProvider";
 
 //Binding events.
 Router.events.on("routeChangeStart", () => NProgress.start());
@@ -54,13 +55,15 @@ const App = ({ Component, pageProps, messages }: MyAppProps) => {
       </Head>
       <NextIntlClientProvider messages={messages}>
         <AppProvider>
-          <ThemeProvider theme={theme()}>
-            <GlobalStyles />
+          <Auth0ProviderWithNavigate>
+            <ThemeProvider theme={theme()}>
+              <GlobalStyles />
 
-            <Layout>
-              <Component {...pageProps} />
-            </Layout>
-          </ThemeProvider>
+              <Layout>
+                <Component {...pageProps} />
+              </Layout>
+            </ThemeProvider>
+          </Auth0ProviderWithNavigate>
         </AppProvider>
       </NextIntlClientProvider>
     </Fragment>
