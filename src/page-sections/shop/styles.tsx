@@ -5,7 +5,7 @@ import { convertHexToRGB } from "@utils/utils";
 
 export const ShopIntroWrapper = styled(Card)`
   .cover-image {
-    background-image: url(/assets/images/banners/shop-cover.png);
+    background-image: url(/assets/images/banners/shop-cover.jpg);
     background-size: cover;
     background-position: center;
   }

@@ -12,7 +12,7 @@ import ProductFilterCard from "@component/products/ProductFilterCard";
 import ShopIntroCard from "@sections/shop/ShopIntroCard";
 import useWindowSize from "@hook/useWindowSize";
 import Shop from "@models/shop.model";
-import api from "@utils/__api__/shops";
+import api from "../../pages/api/shops";
 
 // ============================================================
 type Props = { shop: Shop };
@@ -30,7 +30,7 @@ const ShopDetails = ({ shop }: Props) => {
 
   return (
     <Fragment>
-      <ShopIntroCard />
+      <ShopIntroCard shop={shop}/>
 
       <Grid container spacing={6}>
         {/* SHOW IN LARGE DEVICE */}
@@ -64,16 +64,16 @@ const ShopDetails = ({ shop }: Props) => {
 ShopDetails.layout = NavbarLayout;
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  const paths = await api.getSlugs();
+  // const paths = await api.getSlugs();
 
   return {
-    paths: paths, //indicates that no page needs be created at build time
+    paths: [], //indicates that no page needs be created at build time
     fallback: "blocking", //indicates the type of fallback
   };
 };
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
-  const shop = await api.getShopBySlug(String(params.slug));
+  const shop = await api.getSingleShop(String(params.slug));
   return { props: { shop } };
 };
 

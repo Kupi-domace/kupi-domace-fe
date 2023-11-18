@@ -11,8 +11,8 @@ interface Shop {
   rating?: number;
   verified: boolean;
   products?: Product[];
-  coverPicture: string;
-  profilePicture: string;
+  cover_picture: string;
+  profile_picture: string;
   socialLinks: { facebook?: string; youtube?: string; twitter?: string; instagram?: string };
 }
 

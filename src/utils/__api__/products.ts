@@ -1,6 +1,7 @@
 import axios from "axios";
 import Product from "@models/product.model";
 import Shop from "@models/shop.model";
+import axiosInstance from "config/axiosInstance";
 
 // get all product slug
 const getSlugs = async (): Promise<{ params: { slug: string } }[]> => {
@@ -9,8 +10,8 @@ const getSlugs = async (): Promise<{ params: { slug: string } }[]> => {
 };
 
 // get product based on slug
-const getProduct = async (slug: string): Promise<Product[]> => {
-  const response = await axios.get("/api/products/slug", { params: { slug } });
+const getProduct = async (product_slug: string): Promise<Product[]> => {
+  const response = await axiosInstance.get(`/products/get/by-slug/${product_slug}`);
   return response.data;
 };
 

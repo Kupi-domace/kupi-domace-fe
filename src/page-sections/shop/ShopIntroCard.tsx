@@ -7,11 +7,15 @@ import FlexBox from "@component/FlexBox";
 import { Button } from "@component/buttons";
 import { H3, SemiSpan, Small } from "@component/Typography";
 import { ShopIntroWrapper } from "./styles";
+import Shop from "@models/shop.model";
+import { isImage } from "@utils/utils";
 
-const ShopIntroCard: FC = () => {
+type Props = { shop: Shop };
+
+const ShopIntroCard: FC<Props> = ({ shop }) => {
   return (
     <ShopIntroWrapper mb="32px" pb="20px" overflow="hidden">
-      <Box className="cover-image" height="202px" />
+      <Box className="cover-image" style={isImage(shop.cover_picture) ? {backgroundImage: `url(${shop.cover_picture})`} : {}} height="202px" />
 
       <FlexBox mt="-64px" px="30px" flexWrap="wrap">
         <Avatar
@@ -19,7 +23,7 @@ const ShopIntroCard: FC = () => {
           mr="37px"
           border="4px solid"
           borderColor="gray.100"
-          src="/assets/images/faces/propic.png"
+          src={isImage(shop.profile_picture) ? shop.profile_picture : undefined}
         />
 
         <Box className="description-holder" flex="1 1 0">
@@ -38,7 +42,7 @@ const ShopIntroCard: FC = () => {
               display="inline-block"
             >
               <H3 fontWeight="600" color="gray.100">
-                Scarlett Beauty
+                {shop.name}
               </H3>
             </Box>
 
@@ -58,7 +62,7 @@ const ShopIntroCard: FC = () => {
           <FlexBox flexWrap="wrap" justifyContent="space-between" alignItems="center">
             <Box>
               <FlexBox alignItems="center" mb="14px">
-                <Rating color="warn" value={5} outof={5} readonly />
+                <Rating color="warn" value={shop.rating} outof={5} readonly />
 
                 <Small color="text.muted" pl="0.75rem" display="block">
                   (45)
@@ -71,7 +75,7 @@ const ShopIntroCard: FC = () => {
                 </Icon>
 
                 <SemiSpan color="text.muted" ml="12px">
-                  845 N. Stonybrook Ave. Tonawanda, NY 14210, Denmark
+                  {shop.address}
                 </SemiSpan>
               </FlexBox>
 
@@ -81,7 +85,7 @@ const ShopIntroCard: FC = () => {
                 </Icon>
 
                 <SemiSpan color="text.muted" ml="12px">
-                  (613) 343-9004
+                  {shop.phone}
                 </SemiSpan>
               </FlexBox>
             </Box>
